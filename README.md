@@ -21,7 +21,9 @@ What it adds:
 Why this mod:
 
 I wanted to make a mod that added a new chemical process to the game, but I also wanted to make it more realistic and less of a "magic" one button process. This process is by no means an easy win, the process is increadibly dirty that will require a lot of Kotton fabric and pitcher water filters to clean up. It rewards the player for taking precise measurements and dosing with 100% products.
+
 All processes are native to the game. Even the Flocculent Tablet is just a tinted Water Purification Tablet. Unless the game undergoes an overhaul, the mod should work with new updates.
+
 Old Save Safe. The mod can work with old saves. If the mod is removed and a save is loaded that had the added liquids still present, the liquids will simply disappear. Any sprites will load in as unkown and adding the sprites to a bottle with delete them from the face of the earth. Adding the mod back will will cause the liquids to reappear
 
 AI usage: 
