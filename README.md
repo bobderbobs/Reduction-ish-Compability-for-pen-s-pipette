@@ -24,7 +24,7 @@ I wanted to make a mod that added a new chemical process to the game, but I also
 
 All processes are native to the game. Even the Flocculent Tablet is just a tinted Water Purification Tablet. Unless the game undergoes an overhaul, the mod should work with new updates.
 
-Old Save Safe. The mod can work with old saves. If the mod is removed and a save is loaded that had the added liquids still present, the liquids will simply disappear. Any sprites will load in as unkown and adding the sprites to a bottle with delete them from the face of the earth. Adding the mod back will will cause the liquids to reappear
+Old Save Safe. The mod can work with old saves. If the mod is removed and a save is loaded that had the added liquids still present, the liquids will simply disappear. Any sprites will load in as unknown and throwing them in the trash will delete them from the face of the earth if the janitorial services are selected before going to sleep. Adding the mod back will will cause the liquids to reappear
 
 AI usage: 
 
