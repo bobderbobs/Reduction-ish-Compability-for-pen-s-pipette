@@ -7,11 +7,11 @@ How It Works:
 * Furnace Smelting: Smelt 2x Common Electronics with 1x Bottled Water overnight to extract contaminated Sodium Suspension. EMPTY THE BOTTLE FIRST!
 This will make roughly 40% Sodium Suspension, 14% Heavy Metals, 7% Chemical Contaminants, and 39% Physical Contamination on average.
 
-* Acid Reduction (90°C – 110°C): React Sodium Suspension with Acid (1:1) to synthesize Reducing Agent alongside heavy debris and mineral impurities. This is a dirty process, bring some Kotton.
+* Acid Reduction (90°C – 110°C): React Sodium Suspension with Acid (1:1) to synthesize Reducing Agent alongside heavy debris and mineral impurities.
 
-* Flocculant Synthesis (40°C – 50°C): Blend Nutrifruit and react its Starch with Base (3:1) on a warm burner to produce Flocculant (65% active flocculant, 30% water, 5% mineral).. Optionally, you can dry and press it into Crude Flocculant Tablets in the Chem Finisher.
+* Flocculant Synthesis (40°C – 50°C): Blend Nutrifruit and react its Starch with Base (3:1) on a warm burner to produce Flocculant (65% active flocculant, 30% water, 5% mineral). Optionally, you can dry and press it into Crude Flocculant Tablets in the Chem Finisher.
   
-* Gelatinization (50°C – 65°C): Dissolve Flocculant into your dirty batch of anything to bind at a 1:5 ratio heavy metals and chemical contaminants all the way down to 0.00%! Just watch your dosing, you can clear any excess flocculant by heating it above 85°C or with a drop of acid
+* Gelatinization (50°C – 65°C): Dissolve Flocculant into your dirty batch of anything to bind at a 1:5 ratio heavy metals and chemical contaminants all the way down to 0.00%! The flocculant converts to insoluble debris so it needs to be filtered out after you're done. This is a dirty process, bring some Kotton. Just watch your dosing, you can clear any excess flocculant by heating it above 85°C or with a drop of acid!
 
 What it adds:
 
