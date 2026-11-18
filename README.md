@@ -1,1 +1,29 @@
 # Mod Testing
+
+Reduction-ish adds a multi-stage pathway for synthesizing Reducing Agent from scavenged electronics and purifying contaminated batches with Nutrifruit-derived Flocculant.
+
+How It Works:
+
+* Furnace Smelting: Smelt 2x Common Electronics with 1x Bottled Water overnight to extract contaminated Sodium Suspension. EMPTY THE BOTTLE FIRST!
+
+* Acid Reduction (90°C – 110°C): React Sodium Suspension with Acid (1:1) to synthesize Reducing Agent alongside heavy debris and mineral impurities. This is a dirty process, bring some Kotton.
+
+* Flocculant Synthesis (40°C – 50°C): Blend Nutrifruit and react its Starch with Base (3:1) on a warm burner to produce Flocculant. Optionally, you can dry and press it into Crude Flocculant Tablets in the Chem Finisher.
+
+* Gelatinization (50°C – 65°C): Dissolve Flocculant into your dirty batch of anything to bind heavy metals and chemical contaminants down to 0.00%! Just watch your dosing, you can clear any excess flocculant by heating it above 85°C or with a drop of acid!
+
+What it adds:
+
+* 2 new liquids: Sodium Suspension and Flocculant
+* 1 new item and its sprite: Flocculant Tablet in the Chem Finisher. Take 15ml of dry Flocculant for easy dosing.
+* 4 new processes: Furnace Smelting, Acid Reduction, Flocculant Synthesis and Gelatinization.
+
+Why this mod:
+
+I wanted to make a mod that added a new chemical process to the game, but I also wanted to make it more realistic and less of a "magic" one button process. This process is by no means an easy win, the process is increadibly dirty that will require a lot of Kotton fabric and pitcher water filters to clean up. It rewards the player for taking precise measurements and dosing with 100% products.
+All processes are native to the game. Even the Flocculent Tablet is just a tinted Water Purification Tablet. Unless the game undergoes an overhaul, the mod should work with new updates.
+Old Save Safe. The mod can work with old saves. If the mod is removed and a save is loaded that had the added liquids still present, the liquids will simply disappear. Any sprites will load in as unkown and adding the sprites to a bottle with delete them from the face of the earth. Adding the mod back will will cause the liquids to reappear
+
+AI usage: 
+
+This mod was made with the help of Gemini AI, which helped with code generation and debugging. The AI was used to generate code snippets and help with syntax and formatting. However, all final design decisions and implementations were made by the mod developer. All processes were tested and verified by the mod developer to ensure they work.
