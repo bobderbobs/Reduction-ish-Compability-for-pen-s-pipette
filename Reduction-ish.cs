@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
 
@@ -16,12 +17,13 @@ namespace Reductionish
             Instance = this;
             Manifest = manifest;
             Log = new ModLog(manifest);
-            ModHook.OnModAssetsLoaded += OnAssetsLoaded;
             Log.Log($"{manifest.Name} v{manifest.ModVersion} loaded.");
         }
 
         public void OnEnable()
         {
+            ModHook.OnPlaceInventorInventoryItemEarly += PlaceNotebookInventorInventory;
+            ModHook.OnModAssetsLoaded += OnAssetsLoaded;
             ModHook.OnModItemDirectoryInit += RegisterModItems;
             ModHook.OnGameLoadedInit += OnGameLoaded;
             Log.Log("Enabled.");
@@ -29,6 +31,7 @@ namespace Reductionish
 
         public void OnDisable()
         {
+            ModHook.OnPlaceInventorInventoryItemEarly -= PlaceNotebookInventorInventory;
             ModHook.OnModAssetsLoaded -= OnAssetsLoaded;
             ModHook.OnModItemDirectoryInit -= RegisterModItems;
             ModHook.OnGameLoadedInit -= OnGameLoaded;
@@ -43,6 +46,16 @@ namespace Reductionish
             Log.Log("Liquids and Chem Finisher recipe registered on save load.");
         }
 
+        private void PlaceNotebookInventorInventory(List<GameItem> item)
+        {
+            const string BookItemId = "reduction_notes_guide";
+
+            bool alreadyOwned = item != null && item.Exists(i => i != null && i.identifier == BookItemId);
+            if (!alreadyOwned)
+            {
+                PlayerStore.Instance.AddDirectSellingItemToTable(BookItemId);
+            }
+        }
         private void RegisterModItems(ModItemDirectory dir)
         {
             // Ensure the purple sprite is generated even if OnModAssetsLoaded fired before Init!
@@ -55,8 +68,8 @@ namespace Reductionish
             dir.Add("flocculant_tablet", () =>
             {
                 GameItem gameItem = ItemDirectory.CreateEmptyItem("flocculant_tablet").SetSpriteAndShapeFromMod(Manifest.ID, "flocculant_tablet");
-                gameItem.name = "Crude Flocculant Tablet";
-                gameItem.shortDescription = "Starch-based polymer tablet. Dissolves into fluid and binds to heavy metals and chemical impurities if heated.";
+                gameItem.name = ModHelper.GetLocalized("Reduction-ish", "flocculant_tablet_name");
+                gameItem.shortDescription = ModHelper.GetLocalized("Reduction-ish", "flocculant_tablet_desc");
                 gameItem.SetGameItemType("HOUSEHOLD_GOOD");
                 gameItem.SetGameItemType("WATER_PURIFICATION_SUPPLY");
                 AudioHelper.InitTinyItem(gameItem);
@@ -64,6 +77,20 @@ namespace Reductionish
                 gameItem.EnableTag("WATER_PURIFICATION_TABLET");
                 ChemicalHelper.InitChemItem(gameItem, isBlendable: true, isSoluble: true);
                 ChemicalHelper.SetChemContentML(gameItem, "flocculant", 15.0);
+                return gameItem;
+            });
+
+            dir.Add("reduction_notes_guide", () =>
+            {
+                GameItem gameItem = ItemDirectory.CreateEmptyItem("reduction_notes_guide").SetSpriteAndShape("items_misc", "manual1");
+                gameItem.name = ModHelper.GetLocalized("Reduction-ish", "reduction_notes_guide_name");
+                gameItem.shortDescription = ModHelper.GetLocalized("Reduction-ish", "reduction_notes_guide_desc");
+                gameItem.EnableTag("DOCUMENT");
+                gameItem.SetGameItemType("DOCUMENT");
+                gameItem.EnableTag("BOOK_TAG");
+                gameItem.EnableTag("IMPORTANT_TAG");
+                gameItem.SetValue(50L);
+                BookHelper.InitPaperGuide(gameItem);
                 return gameItem;
             });
         }
@@ -119,7 +146,7 @@ namespace Reductionish
             purpleSprite.name = "flocculant_tablet";
 
             mod.Sprites["flocculant_tablet"] = purpleSprite;
-            Debug.Log("Generated pixel-perfect purple puck of precious flocculant_tablet sprite in memory.");
+            Log.Log("Generated pixel-perfect purple puck of precious flocculant_tablet sprite in memory.");
         }
 
 
@@ -132,12 +159,12 @@ namespace Reductionish
             }
 
             Liquid sodium = new Liquid();
-            sodium.displayName = "Sodium Suspension";
+            sodium.displayName = ModHelper.GetLocalized("Reduction-ish", "sodium_suspension_name");
             sodium.identifier = "sodium_suspension";
             sodium.part = "PART_SODIUM_SUSPENSION";               
             sodium.currentPart = "CURRENT_PART_SODIUM_SUSPENSION"; 
             sodium.canBeRemovedByPurifier = false;
-            sodium.particleSize = 12;
+            sodium.particleSize = 5;
             sodium.color = "D94116";
             sodium.colorMultiplier = 3;
             Liquid.Liquids.Add(sodium);
@@ -155,13 +182,13 @@ namespace Reductionish
             }
 
             Liquid starch = new Liquid();
-            starch.displayName = "Flocculant";
+            starch.displayName = ModHelper.GetLocalized("Reduction-ish", "flocculant_name");
             starch.identifier = "flocculant";
             starch.part = "PART_FLOCCULANT";               
             starch.currentPart = "CURRENT_PART_FLOCCULANT"; 
             starch.canBeRemovedByPurifier = true;
             starch.basePurifierRemoveAmount = 4000;
-            starch.particleSize = 6;
+            starch.particleSize = 5;
             starch.color = "6a4c93";
             starch.colorMultiplier = 3;
             Liquid.Liquids.Add(starch);
@@ -188,7 +215,7 @@ namespace Reductionish
                 ChemFinisherRecipe.chemFinisherRecipes.Add(new ChemFinisherRecipe
                 {
                     identifier = "flocculant_tablet",
-                    displayName = "Crude Flocculant Tablet",
+                    displayName = ModHelper.GetLocalized("Reduction-ish", "flocculant_tablet_name"),
                     requiredVolume = 15000, // 15 mL of dried flocculant per puck
                     isRequireDry = true,
                     activeIngredientId = "flocculant"
@@ -240,13 +267,13 @@ internal static class FurnaceInitPatch
             return origMayAddLeft != null && origMayAddLeft(item, inv);
         };
 
-        // 3. Attach your recipe to the furnace's overnight cycle event
+        // 3. Attach the recipe to the furnace's overnight cycle event
         var origCycleEnd = __result.onCycleEndSlotItemFunc;
         __result.onCycleEndSlotItemFunc = (GameItem machine, GameInventory parentInv, SlotMarker slot) =>
         {
             bool customCrafted = TryRunSodiumRecipe(machine, batterySlot, moduleInv, leftInv, rightInv);
 
-            // Fall back to standard smelting if our recipe didn't run
+            // Fall back to standard smelting if the recipe didn't run
             if (!customCrafted && origCycleEnd != null)
             {
                 origCycleEnd(machine, parentInv, slot);
@@ -298,7 +325,7 @@ internal static class FurnaceInitPatch
             }
 
             // Randomly generate the amounts of each liquid to add to the output bottle with a limit of 500,000 UL total.
-            int sodiumUL = RNG.GetRandomInt(160000, 240000);
+            int sodiumUL = RNG.GetRandomInt(180000, 240000);
             int metalUL = RNG.GetRandomInt(50000, 90000);
             int chemUL = RNG.GetRandomInt(20000, 50000);
             int physicalUL = 500000 - sodiumUL - metalUL - chemUL;
@@ -563,13 +590,13 @@ internal static class ChemicalReactionPatch
         // Update remaining flocculant and convert neutralized volume into 90% Water / 10% Mineral
         container.ModifyTag(Liquid.GetCurrentPartFromId("flocculant"), s => s.Enable().SetInt(flocPart), skipValidate: true);
 
-        int currentWater = container.GetTagReadonly(Liquid.GetCurrentPartFromId("water")).GetInt();
+        int currentDebris = container.GetTagReadonly(Liquid.GetCurrentPartFromId("debris")).GetInt();
         int currentMineral = container.GetTagReadonly(Liquid.GetCurrentPartFromId("mineral")).GetInt();
 
-        int waterYield = (int)(totalRemoved * 0.90);
-        int mineralYield = totalRemoved - waterYield;
+        int debrisYield = (int)(totalRemoved * 0.90);
+        int mineralYield = totalRemoved - debrisYield;
 
-        container.ModifyTag(Liquid.GetCurrentPartFromId("water"), s => s.Enable().SetInt(currentWater + waterYield), skipValidate: true);
+        container.ModifyTag(Liquid.GetCurrentPartFromId("debris"), s => s.Enable().SetInt(currentDebris + debrisYield), skipValidate: true);
         container.ModifyTag(Liquid.GetCurrentPartFromId("mineral"), s => s.Enable().SetInt(currentMineral + mineralYield), skipValidate: true);
 
         return 1;
