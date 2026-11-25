@@ -189,9 +189,9 @@
           "pipette.base": 1
         },
         "produce": {
-          "flocculant": 0.1625,
-          "water": 0.075,
-          "mineral": 0.0125
+          "flocculant": 2.6,
+          "water": 1.2,
+          "mineral": 0.2
         },
         "temperatureMin": 40,
         "temperatureMax": 50
